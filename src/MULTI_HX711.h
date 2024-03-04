@@ -1,6 +1,14 @@
 #ifndef MULTI_HX711_h
 #define MULTI_HX711_h
 
+#if defined(ESP8266) || defined(ESP32)
+  #define DELAY_FOR_FAST_MCU delayMicroseconds(1);
+#endif
+
+#define BEGIN_ATOMIC_BLOCK noInterrupts();
+#define END_ATOMIC_BLOCK interrupts();
+
+
 #include "Arduino.h"
 
 class MULTI_HX711
