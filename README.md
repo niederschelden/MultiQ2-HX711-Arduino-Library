@@ -6,7 +6,7 @@ RIGHT NOW THIS WILL NOT COMPILE! STILL WORKING ON THE FIRST ATTEMPT
 
 | **To-Do**                                    | **Idea Credits**            | **Status** |
 |----------------------------------------------|-----------------------------|------------|
-| Modify class definition to use arrays        |                        | Working on the Constructor       |
+| Modify class definition to use arrays        |                        | work in progress       |
 | Process sensor data in parallel              | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/dehnungsmessstreifen)  | Todo       |
 | Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | Todo       |
 | Implement a tare method                      |                         | Todo       |
