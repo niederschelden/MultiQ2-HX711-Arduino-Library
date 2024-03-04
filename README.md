@@ -36,6 +36,8 @@ Additionally, it can also accept two arrays of pin numbers for more advanced set
 |--------------|------------------------------------------------------------------------|
 | read         | Returns a long integer representing the current value of the HX711.     |
 | readyToSend  | Returns a boolean value indicating whether the HX711 is ready to send data. |
+| setGain  | {128 = Channel A, 64 = Channel A, 32 = Channel B}; Returns notin'|
+
 
 ### Example 1
 Here is a simple example of using the HX711 on pins 2 and 3 to read a strain gauge and print its current value:
