@@ -2,9 +2,11 @@
 I am attempting to enhance this library to enable the usage of multiple HX711 modules with only one clock pin for all modules. All credits for the original work go to Scott Russel; any errors are solely my responsibility.
 This library is a fork of the [Queuetue HX711 Library](https://github.com/queuetue/Q2-HX711-Arduino-Library).
 
+RIGHT NOW THIS WILL NOT COMPILE! STILL WORKING ON THE FIRST ATTEMPT
+
 | **To-Do**                                    | **Idea Credits**            | **Status** |
 |----------------------------------------------|-----------------------------|------------|
-| Modify class definition to use arrays        |                        | Todo       |
+| Modify class definition to use arrays        |                        | Working on the Constructor       |
 | Process sensor data in parallel              | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/dehnungsmessstreifen)  | Todo       |
 | Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | Todo       |
 | Implement a tare method                      |                         | Todo       |

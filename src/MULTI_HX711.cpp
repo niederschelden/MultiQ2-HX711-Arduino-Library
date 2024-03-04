@@ -1,17 +1,23 @@
 #include <Arduino.h>
-#include "Q2HX711.h"
+#include "MULTI_HX711.h"
 
-Q2HX711::Q2HX711(byte output_pin, byte clock_pin) {
-  CLOCK_PIN  = clock_pin;
-  OUT_PIN  = output_pin;
-  GAIN = 1;
-  pinsConfigured = false;
+MULTI_HX711::MULTI_HX711(byte output_pin, byte clock_pin) {
+  byte clock_pins[] = {clock_pin}; // Erzeuge ein Array mit einem Element
+  byte out_pins[] = {output_pin}; // Erzeuge ein Array mit einem Element
+  init(out_pins, clock_pins, 1, 1); // Rufe die init-Methode mit den Arrays der Länge 1 auf
 }
 
-Q2HX711::~Q2HX711() {
+MULTI_HX711::MULTI_HX711(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk) {
+  init(output_pins, clock_pins, num_out, num_clk); // Rufe die init-Methode mit den übergebenen Arrays auf
 }
 
-bool Q2HX711::readyToSend() {
+MULTI_HX711::~MULTI_HX711() {
+  // Freigabe des allokierten Speichers für die Arrays
+  delete[] CLOCK_PINS;
+  delete[] OUT_PINS;
+}
+
+bool MULTI_HX711::readyToSend() {
   if (!pinsConfigured) {
     // We need to set the pin mode once, but not in the constructor
     pinMode(CLOCK_PIN, OUTPUT);
@@ -21,7 +27,7 @@ bool Q2HX711::readyToSend() {
   return digitalRead(OUT_PIN) == LOW;
 }
 
-void Q2HX711::setGain(byte gain) {
+void MULTI_HX711::setGain(byte gain) {
   switch (gain) {
     case 128:
       GAIN = 1;
@@ -38,7 +44,7 @@ void Q2HX711::setGain(byte gain) {
   read();
 }
 
-long Q2HX711::read() {
+long MULTI_HX711::read() {
    while (!readyToSend());
 
   byte data[3];
