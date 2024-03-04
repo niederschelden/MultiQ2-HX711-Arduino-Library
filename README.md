@@ -2,6 +2,13 @@
 I am attempting to enhance this library to enable the usage of multiple HX711 modules with only one clock pin for all modules. All credits for the original work go to Scott Russel; any errors are solely my responsibility.
 This library is a fork of the [Queuetue HX711 Library](https://github.com/queuetue/Q2-HX711-Arduino-Library).
 
+| **To-Do**                                    | **Idea Credits**            | **Status** |
+|----------------------------------------------|-----------------------------|------------|
+| Modify class definition to use arrays        |                        | Todo       |
+| Process sensor data in parallel              | Wolles Elektronikkiste  | Todo       |
+| Add an atomic block for critical operations  | [olkal](https://github.com/olkal/HX711_ADC?tab=readme-ov-file)               | Todo       |
+| Implement a tare method                      |                         | Todo       |
+| Keep the code simple                         |               | Todo       |
 
 
 ## Queuetue HX711 Arduino Library
