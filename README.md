@@ -6,9 +6,9 @@ RIGHT NOW THIS WILL COMPILE, BUT IS NOT EVEN TESTED! STILL WORKING ON THE FIRST 
 
 | **To-Do**                                    | **Idea Credits**            | **Status** |
 |----------------------------------------------|-----------------------------|------------|
-| Modify class definition to use arrays        |                        | work in progress       |
-| Process sensor data in parallel              | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/dehnungsmessstreifen)  | Todo       |
-| Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | Todo       |
+| Modify class definition to use arrays        |                        | compiles; but not tested       |
+| Process sensor data in parallel              | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/dehnungsmessstreifen)  | not testetd       |
+| Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | not tested       |
 | Implement a tare method                      |                         | Todo       |
 | Keep the code simple                         |               | Todo       |
 
