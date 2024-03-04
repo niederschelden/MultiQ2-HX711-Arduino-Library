@@ -12,6 +12,7 @@ class MULTI_HX711
     byte num_out; // Anzahl der Outpins
     byte num_clk; // Anzahl der Clockpins
     bool pinsConfigured;
+    void init(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk); // Deklaration der init() Methode
 
   public:
     // Überladener Konstruktor für einzelne Pins
@@ -24,7 +25,7 @@ class MULTI_HX711
     
     bool readyToSend();
     void setGain(byte gain = 128);
-    long read();
+    uint32_t* read();
 };
 
 #endif /* MULTI_HX711_h */
