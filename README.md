@@ -58,11 +58,9 @@ void loop() {
 
     // Print the data
     Serial.println(data[0]);
-    
-
-    // Delete the array to avoid memory leaks
+    // Free Data
     delete[] data;
-
+    
     delay(500);
   }
 }
