@@ -31,7 +31,7 @@ The MULTI_HX711 class accepts two parameters during initialization: the pin for 
 Additionally, it can also accept two arrays of pin numbers for more advanced setups.
 
 
-###Functions
+### Functions
 | Function     | Description                                                            |
 |--------------|------------------------------------------------------------------------|
 | read         | Returns a long integer representing the current value of the HX711.     |
