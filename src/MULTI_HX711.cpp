@@ -37,7 +37,7 @@ void MULTI_HX711::init(byte* output_pins, byte* clock_pins, byte num_out, byte n
       pinMode(OUT_PINS[i], INPUT);
     }
   pinsConfigured = true;
-  }
+}
 
 MULTI_HX711::~MULTI_HX711() {
   // Freigabe des allokierten Speichers für die Arrays
