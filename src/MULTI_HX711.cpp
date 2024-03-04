@@ -98,8 +98,7 @@ void MULTI_HX711::setGain(byte gain)
 
 uint32_t *MULTI_HX711::read()
 {
-  while (!readyToSend())
-    ;
+  while (!readyToSend());
 
   // Array zum Speichern der Daten für jeden Data-Pin
   uint32_t *data = new uint32_t[num_out];
