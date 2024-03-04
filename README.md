@@ -18,7 +18,7 @@ RIGHT NOW THIS WILL NOT COMPILE! STILL WORKING ON THE FIRST ATTEMPT
 Fork of Queuetue HX711 Library Copyright (c) 2015 Scott Russell (scott@queuetue.com), released under the MIT license.  
 See the LICENSE file for licensing details.
 
-A simple Arduino driver for multiple HX711 ADC.
+###A simple Arduino driver for multiple HX711 ADC.
 
 The HX711 is a low-cost strain gauge amplifier produced by Avia Semiconductor.  Breakout boards are available for it by many producers, including the [Sparkfun 13230](https://www.sparkfun.com/products/13230).
 
@@ -26,18 +26,18 @@ The HX711 communicates with a non-i2c compliant two wire protocol and provides a
 
 This library provides the code required to use an Arduino, the HX711 module and a strain gauge load cell to build a scale, force gauge or many other pressure or force sensitive projects.
 
-Class
+###Class
 The MULTI_HX711 class accepts two parameters during initialization: the pin for data transmission (Output) and the pin for readiness signaling (Clock). 
 Additionally, it can also accept two arrays of pin numbers for more advanced setups.
 
 
-Functions
+###Functions
 | Function     | Description                                                            |
 |--------------|------------------------------------------------------------------------|
 | read         | Returns a long integer representing the current value of the HX711.     |
 | readyToSend  | Returns a boolean value indicating whether the HX711 is ready to send data. |
 
-Example 1
+###Example 1
 Here is a simple example of using the HX711 on pins 2 and 3 to read a strain gauge and print its current value:
 
 ```cpp
@@ -66,7 +66,7 @@ void loop() {
 }
 ```
 
-Example 2
+###Example 2
 Here is an example of initializing the HX711 with multiple data and clock pins (2 data pins and 2 clock pins):
 
 ```cpp
