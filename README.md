@@ -67,7 +67,7 @@ void loop() {
 ```
 
 ### Example 2
-Here is an example of initializing the HX711 with multiple data and clock pins (2 data pins and 2 clock pins):
+Here is an example of initializing the HX711 with multiple data and clock pins (Example: 4 data pins and 2 clock pins):
 
 ```cpp
 #include <MULTI_HX711.h>
