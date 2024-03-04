@@ -6,7 +6,7 @@ This library is a fork of the [Queuetue HX711 Library](https://github.com/queuet
 |----------------------------------------------|-----------------------------|------------|
 | Modify class definition to use arrays        |                        | Todo       |
 | Process sensor data in parallel              | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/dehnungsmessstreifen)  | Todo       |
-| Add an atomic block for critical operations  | [olkal](https://github.com/olkal/HX711_ADC?tab=readme-ov-file)               | Todo       |
+| Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | Todo       |
 | Implement a tare method                      |                         | Todo       |
 | Keep the code simple                         |               | Todo       |
 
