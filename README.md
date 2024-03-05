@@ -48,7 +48,7 @@ Here is a simple example of using the HX711 on pins 2 and 3 to read a strain gau
 ```cpp
 #include <MULTI_HX711.h>
 
-MULTI_HX711 hx711(2, 3); // Data pin: 2, Clock pin: 3
+MULTI_HX711 hx711(D5, D7);
 
 void setup() {
   Serial.begin(9600);
@@ -65,6 +65,9 @@ void loop() {
     delay(500);
   }
 }
+```
+### Example 2
+Four HX711 with only two clockpins read the value after tare:
 ```cpp
 #include <MULTI_HX711.h>
 
