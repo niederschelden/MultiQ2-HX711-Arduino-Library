@@ -12,10 +12,12 @@ MULTI_HX711  KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-init  KEYWORD2
-read  KEYWORD2
-readyToSend  KEYWORD2
-setGain  KEYWORD2
+init           KEYWORD2
+read           KEYWORD2
+readyToSend    KEYWORD2
+setGain        KEYWORD2
+readTare       KEYWORD2
+setTare        KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

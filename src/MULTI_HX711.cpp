@@ -169,7 +169,8 @@ uint32_t *MULTI_HX711::readTare(){
   read();
   for (byte j = 0; j < num_out; j++)
   {
-    data[j] -= tare[j];
+    if(data[j]>tare[j]) data[j] -= tare[j];
+    else data[j]=0;
   }
   return data;
 }
