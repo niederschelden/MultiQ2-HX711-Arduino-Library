@@ -30,9 +30,15 @@ void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte n
 
   OUT_PINS = new byte[num_out];
   for (byte i = 0; i < num_out; i++) OUT_PINS[i] = output_pins[i];
+
+  FACTOR = new uint16_t[num_out]; 
+  for (byte i = 0; i < num_out; i++) FACTOR[i] = 0;
  
   tare = new uint32_t[num_out]; 
   for (byte i = 0; i < num_out; i++) tare[i] = 0;
+
+  kilos = new float[num_out]; 
+  for (byte i = 0; i < num_out; i++) kilos[i] = 0.0;
 
   data = new uint32_t[num_out]; // erhält seine werte in this->read()
 
@@ -54,6 +60,7 @@ MULTI_HX711::~MULTI_HX711()
   delete[] OUT_PINS;
   delete[] data;
   delete[] tare;
+  delete[] kilos; 
 }
 
 void MULTI_HX711::setTare(byte runs, byte delays) {
@@ -171,18 +178,15 @@ uint32_t *MULTI_HX711::readTare(){
   return data;
 }
 
-uint32_t *MULTI_HX711::readTareKilo(){
+float *MULTI_HX711::readTareKilo(){
   readTare();
-  for (byte j = 0; j < num_out; j++)
+  for (byte j = 0; j < num_out; j++) 
   {
-   data[j] /= FACTOR[j]; 
+    kilos[j] = static_cast<float>(data[j]) / FACTOR[j]; 
   }
-  return data;
+  return kilos;
 }
 
-void MULTI_HX711::setFaktor(uint16_t* factor){
-  for (byte j = 0; j < num_out; j++)
-  {
-   FACTOR[j]= factor[j]; 
-  }
+void MULTI_HX711::setFactor(uint16_t* factor){
+  for (byte j = 0; j < num_out; j++) FACTOR[j]= factor[j]; 
 }
