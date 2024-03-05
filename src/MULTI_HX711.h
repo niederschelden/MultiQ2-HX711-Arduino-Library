@@ -27,9 +27,12 @@ class MULTI_HX711
     byte GAIN;
     byte num_out; // Anzahl der Outpins
     byte num_clk; // Anzahl der Clockpins
-    void init(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk); // Deklaration der init() Methode
+    
     
   public:
+    //Dummy Konstruktor
+    MULTI_HX711();
+
     // Überladener Konstruktor für einzelne Pins
     MULTI_HX711(byte output_pin, byte clock_pin);
     
@@ -37,7 +40,8 @@ class MULTI_HX711
     MULTI_HX711(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk);
     
     virtual ~MULTI_HX711();
-    
+
+    void init(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk); //MUSS aufgerufen werden
     bool readyToSend();
     void setGain(byte gain = 128);
     uint32_t* read();
