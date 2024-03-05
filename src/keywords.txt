@@ -1,19 +1,23 @@
 #######################################
-# Syntax Coloring Map For Q2HX711
+# Syntax Coloring Map For MULTI_HX711
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
 
-Q2HX711	KEYWORD1	Q2HX711
+MULTI_HX711  KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-readyToSend	KEYWORD2
-read	KEYWORD2
+init           KEYWORD2
+read           KEYWORD2
+readyToSend    KEYWORD2
+setGain        KEYWORD2
+readTare       KEYWORD2
+setTare        KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
