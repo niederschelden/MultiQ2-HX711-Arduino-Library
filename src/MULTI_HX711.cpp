@@ -25,6 +25,9 @@ void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte n
   // Allokiere Speicher für die Arrays und kopiere die Werte
   CLOCK_PINS = new byte[num_clk];
   OUT_PINS = new byte[num_out];
+  data = new uint32_t[num_out]; // erhält seine werte in this->read()
+  tare = new uint32_t[num_out]; // erhält leere werte bis tariert wurde
+
   for (byte i = 0; i < num_clk; i++)
   {
     CLOCK_PINS[i] = clock_pins[i];
@@ -33,7 +36,10 @@ void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte n
   {
     OUT_PINS[i] = output_pins[i];
   }
-
+  for (byte i = 0; i < num_out; i++)
+  {
+    tare[i] = 0;
+  }
   // Konfiguriere die Pins, falls noch nicht geschehen
   for (byte i = 0; i < num_clk; i++)
   {
@@ -43,7 +49,6 @@ void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte n
   {
     pinMode(OUT_PINS[i], INPUT);
   }
-  pinsConfigured = true;
 }
 
 MULTI_HX711::~MULTI_HX711()
@@ -51,6 +56,26 @@ MULTI_HX711::~MULTI_HX711()
   // Freigabe des allokierten Speichers für die Arrays
   delete[] CLOCK_PINS;
   delete[] OUT_PINS;
+  delete[] data;
+  delete[] tare;
+}
+
+void MULTI_HX711::setTare(byte runs, byte delays) {
+  // Setze die Tare-Werte auf Null, bevor neue Messungen durchgeführt werden
+  for (byte j = 0; j < num_out; j++) {
+    tare[j] = 0;
+  }
+  // Führe Tara-Messungen durch und aktualisiere die Tare-Werte entsprechend
+  for (byte i = 0; i < runs; i++) {
+    // Lese die Messwerte und speichere sie im Datenarray
+    read();
+    // Addiere die aktuellen Messwerte zu den Tare-Werten
+    for (byte j = 0; j < num_out; j++) {
+      tare[j] += data[j] / runs;
+    }
+    // Verzögerung zwischen den einzelnen Messungen
+    delay(delays);
+  }
 }
 
 bool MULTI_HX711::readyToSend()
@@ -98,31 +123,32 @@ void MULTI_HX711::setGain(byte gain)
 
 uint32_t *MULTI_HX711::read()
 {
-  while (!readyToSend());
-
-  // Array zum Speichern der Daten für jeden Data-Pin
-  uint32_t *data = new uint32_t[num_out];
+  while (!readyToSend())
+    ;
+  // leere jedes mal das Ergebnisarray
+  for (byte j = 0; j < this->num_out; j++)
+    data[j] = 0;
 
   BEGIN_ATOMIC_BLOCK;
 
-  for (int i = 0; i < GAIN + 24; i++)
+  for (int i = 0; i < (GAIN + 24); i++)
   {
+    DELAY_FOR_FAST_MCU; // Optional: Wartezeit für schnelle Mikrocontroller
     // Schalte alle Clock-Pins gleichzeitig um
-    for (byte j = 0; j < num_clk; j++)
+    for (byte j = 0; j < this->num_clk; j++)
     {
       digitalWrite(CLOCK_PINS[j], HIGH);
     }
     DELAY_FOR_FAST_MCU; // Optional: Wartezeit für schnelle Mikrocontroller
-    for (byte j = 0; j < num_clk; j++)
+    for (byte j = 0; j < this->num_clk; j++)
     {
       digitalWrite(CLOCK_PINS[j], LOW);
     }
-    DELAY_FOR_FAST_MCU; // Optional: Wartezeit für schnelle Mikrocontroller
 
     // Lies die Daten von den Input-Pins und speichere sie im entsprechenden Datenarray
     if (i < 24)
     {
-      for (byte j = 0; j < num_out; j++)
+      for (byte j = 0; j < this->num_out; j++)
       {
         data[j] = (data[j] << 1) | digitalRead(OUT_PINS[j]);
       }
@@ -130,12 +156,20 @@ uint32_t *MULTI_HX711::read()
   }
 
   END_ATOMIC_BLOCK;
-
   // Flippe Bit 23 in jedem Datenwert
   for (byte j = 0; j < num_out; j++)
   {
     data[j] ^= 0x800000;
   }
 
+  return data;
+}
+
+uint32_t *MULTI_HX711::readTare(){
+  read();
+  for (byte j = 0; j < num_out; j++)
+  {
+    data[j] -= tare[j];
+  }
   return data;
 }
