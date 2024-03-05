@@ -10,7 +10,7 @@ RIGHT NOW THIS WILL COMPILE, BUT IS NOT EVEN TESTED! STILL WORKING ON THE FIRST 
 | Modify class definition of the Source Library to use arrays        | [Queuetue HX711 Library](https://github.com/queuetue/Q2-HX711-Arduino-Library)   | compiles; betatesting   |
 | Process sensor data bit by bit           | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/en/strain-gauges) | betatesting       |
 | Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | not jet tested       |
-| Implement a tare method                      |                         | Todo       |
+| Implement a tare method                      |                         | Done       |
 | Keep the code simple                         |               | need to vreate a dummy constuctor to reduce global variables       |
 
 
