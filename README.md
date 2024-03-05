@@ -6,9 +6,10 @@ RIGHT NOW THIS WILL COMPILE, BUT IS NOT EVEN TESTED! STILL WORKING ON THE FIRST 
 
 | **To-Do**                                    | **Idea Credits**            | **Status** |
 |----------------------------------------------|-----------------------------|------------|
-| Modify class definition to use arrays        |                        | compiles; but not tested       |
-| Process sensor data in parallel              | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/dehnungsmessstreifen)  | not testetd       |
-| Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | not tested       |
+| Understand Arduino Librarys | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/en/creating-libraries-and-classes-part-i)| I start to understand but have a long way to go|
+| Modify class definition of the Source Library to use arrays        | [Queuetue HX711 Library](https://github.com/queuetue/Q2-HX711-Arduino-Library)   | compiles; but not tested   |
+| Process sensor data bit by bit           | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/en/strain-gauges) | not jet testetd       |
+| Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | not jet tested       |
 | Implement a tare method                      |                         | Todo       |
 | Keep the code simple                         |               | Todo       |
 
