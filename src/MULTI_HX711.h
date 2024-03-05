@@ -18,8 +18,10 @@ class MULTI_HX711
   private:
     byte* CLOCK_PINS; // Ändern auf Array-Zeiger
     byte* OUT_PINS; // Ändern auf Array-Zeiger
+    uint16_t* FACTOR; // Privates Mitglied für das Faktorarray
     uint32_t* data; // Privates Mitglied für das Datenarray
     uint32_t* tare; // Privates Mitglied für das Taraarray
+
 
     byte GAIN;
     byte num_out; // Anzahl der Outpins
@@ -39,7 +41,9 @@ class MULTI_HX711
     void setGain(byte gain = 128);
     uint32_t* read();
     uint32_t* readTare();
+    uint32_t* readTareKilo();
     void setTare(byte runs, byte delays);
+    void setFaktor(uint16_t* factor);
 };
 
 #endif /* MULTI_HX711_h */

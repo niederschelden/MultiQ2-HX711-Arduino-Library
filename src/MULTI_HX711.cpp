@@ -180,11 +180,9 @@ uint32_t *MULTI_HX711::readTareKilo(){
   return data;
 }
 
-void MULTI_HX711::setFaktor(byte *factor){
-  readTare()
+void MULTI_HX711::setFaktor(uint16_t* factor){
   for (byte j = 0; j < num_out; j++)
   {
-   FACTOR[j]= faktor[j]; 
+   FACTOR[j]= factor[j]; 
   }
-  return data;
 }
