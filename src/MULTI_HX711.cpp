@@ -172,7 +172,7 @@ uint32_t *MULTI_HX711::readTare(){
 }
 
 uint32_t *MULTI_HX711::readTareKilo(){
-  readTare()
+  readTare();
   for (byte j = 0; j < num_out; j++)
   {
    data[j] /= FACTOR[j]; 
