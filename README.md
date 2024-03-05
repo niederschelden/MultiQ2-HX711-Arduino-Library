@@ -29,7 +29,7 @@ This library provides the code required to use an Arduino, the HX711 module and 
 
 ### Class
 The MULTI_HX711 class accepts two parameters during initialization: the pin for data transmission (Output) and the pin for readiness signaling (Clock). 
-Additionally, it can also accept two arrays of pin numbers for more advanced setups.
+Additionally, it can also accept two arrays of pin numbers for more advanced setups. Finally there is a dummy constructor class that expects you to call init() by hand.
 
 ### Functions
 
