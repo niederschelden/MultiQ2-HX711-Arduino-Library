@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include "MULTI_HX711.h"
 
+//Dummy Konstruktor
+MULTI_HX711::MULTI_HX711(){}
+
 //Alte Konstruktor klasse für nur ein HX711
 MULTI_HX711::MULTI_HX711(byte output_pin, byte clock_pin)
 {

@@ -44,6 +44,6 @@ void loop() {
     }
    Serial.print(F(" In Summe: "));
    Serial.println(gesamt);
-   delay(1000);
+   //delay(1000);
   }
 }
