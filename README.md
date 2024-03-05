@@ -35,7 +35,7 @@ Additionally, it can also accept two arrays of pin numbers for more advanced set
 
 | Function       | Description                                                            |
 |----------------|------------------------------------------------------------------------|
-| init    | Mandatory setup for class variables |
+| init    | Mandatory setup for class variables. (May be called from Constructor)|
 | readyToSend    | Returns a boolean value indicating whether the HX711 is ready to send data. |
 | setGain        | Sets the gain of the HX711 amplifier.  {128 Channel A,64 Channel A,32 Channel B}                                 |
 | read           | Reads the raw data from the HX711.                                      |
