@@ -31,15 +31,19 @@ This library provides the code required to use an Arduino, the HX711 module and 
 The MULTI_HX711 class accepts two parameters during initialization: the pin for data transmission (Output) and the pin for readiness signaling (Clock). 
 Additionally, it can also accept two arrays of pin numbers for more advanced setups.
 
-
 ### Functions
-| Function     | Description                                                            |
-|--------------|------------------------------------------------------------------------|
-| read         | Returns a long integer representing the current value of the HX711.     |
-| readyToSend  | Returns a boolean value indicating whether the HX711 is ready to send data. |
-| setGain  | {128 = Channel A, 64 = Channel A, 32 = Channel B}; Returns notin'|
-| readTare  | Returns a long integer representing the current value of the HX711, after applying the tare.     |
-| setTare  | Sets the tare values for subsequent readings.     |
+
+| Function       | Description                                                            |
+|----------------|------------------------------------------------------------------------|
+| readyToSend    | Returns a boolean value indicating whether the HX711 is ready to send data. |
+| setGain        | Sets the gain of the HX711 amplifier.                                  |
+| read           | Reads the raw data from the HX711.                                      |
+| readTare       | Reads the raw data from the HX711 after applying the tare.              |
+| readTareKilo   | Reads the data from the HX711 after applying the tare and converting it to kilograms. |
+| setTare        | Sets the tare values for subsequent readings.                           |
+| setFactor      | Sets the conversion factor for each output pin.                         |
+| getNumOut      | Returns the number of output pins configured in the HX711 instance.     |
+
 
 
 ### Example 1
