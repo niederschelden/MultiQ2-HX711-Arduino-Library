@@ -1,22 +1,24 @@
 #include <Arduino.h>
 #include "MULTI_HX711.h"
 
+//Alte Konstruktor klasse für nur ein HX711
 MULTI_HX711::MULTI_HX711(byte output_pin, byte clock_pin)
 {
   byte clock_pins[] = {clock_pin};  // Erzeuge ein Array mit einem Element
   byte out_pins[] = {output_pin};   // Erzeuge ein Array mit einem Element
   init(out_pins, clock_pins, 1, 1); // Rufe die init-Methode mit den Arrays der Länge 1 auf
 }
-
+//Neue Konstruktor klasse für nur ein HX711
 MULTI_HX711::MULTI_HX711(byte *output_pins, byte *clock_pins, byte num_out, byte num_clk)
 {
   init(output_pins, clock_pins, num_out, num_clk); // Rufe die init-Methode mit den übergebenen Arrays auf
 }
 
+//Hier laufen beide Konstruktoren zusammen
 void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte num_clk)
 {
   // Initialisierung der Variablen
-  GAIN = 1;
+  setGain(128);
 
   // Speichere die Anzahl der Outpins und Clockpins
   this->num_out = num_out;
@@ -24,22 +26,22 @@ void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte n
 
   // Allokiere Speicher für die Arrays und kopiere die Werte
   CLOCK_PINS = new byte[num_clk];
-  OUT_PINS = new byte[num_out];
-  data = new uint32_t[num_out]; // erhält seine werte in this->read()
-  tare = new uint32_t[num_out]; // erhält leere werte bis tariert wurde
+  for (byte i = 0; i < num_clk; i++) CLOCK_PINS[i] = clock_pins[i];
 
-  for (byte i = 0; i < num_clk; i++)
-  {
-    CLOCK_PINS[i] = clock_pins[i];
-  }
-  for (byte i = 0; i < num_out; i++)
-  {
-    OUT_PINS[i] = output_pins[i];
-  }
-  for (byte i = 0; i < num_out; i++)
-  {
-    tare[i] = 0;
-  }
+  OUT_PINS = new byte[num_out];
+  for (byte i = 0; i < num_out; i++) OUT_PINS[i] = output_pins[i];
+
+  FACTOR = new uint16_t[num_out]; 
+  for (byte i = 0; i < num_out; i++) FACTOR[i] = 0;
+ 
+  tare = new uint32_t[num_out]; 
+  for (byte i = 0; i < num_out; i++) tare[i] = 0;
+
+  kilos = new float[num_out]; 
+  for (byte i = 0; i < num_out; i++) kilos[i] = 0.0;
+
+  data = new uint32_t[num_out]; // erhält seine werte in this->read()
+
   // Konfiguriere die Pins, falls noch nicht geschehen
   for (byte i = 0; i < num_clk; i++)
   {
@@ -58,6 +60,7 @@ MULTI_HX711::~MULTI_HX711()
   delete[] OUT_PINS;
   delete[] data;
   delete[] tare;
+  delete[] kilos; 
 }
 
 void MULTI_HX711::setTare(byte runs, byte delays) {
@@ -161,7 +164,7 @@ uint32_t *MULTI_HX711::read()
   {
     data[j] ^= 0x800000;
   }
-
+  //Gib die Refernz auf den Speicherort zurück
   return data;
 }
 
@@ -173,4 +176,17 @@ uint32_t *MULTI_HX711::readTare(){
     else data[j]=0;
   }
   return data;
+}
+
+float *MULTI_HX711::readTareKilo(){
+  readTare();
+  for (byte j = 0; j < num_out; j++) 
+  {
+    kilos[j] = static_cast<float>(data[j]) / FACTOR[j]; 
+  }
+  return kilos;
+}
+
+void MULTI_HX711::setFactor(uint16_t* factor){
+  for (byte j = 0; j < num_out; j++) FACTOR[j]= factor[j]; 
 }

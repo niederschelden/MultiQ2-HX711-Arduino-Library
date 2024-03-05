@@ -18,7 +18,11 @@ readyToSend    KEYWORD2
 setGain        KEYWORD2
 readTare       KEYWORD2
 setTare        KEYWORD2
+readTareKilo   KEYWORD2
+setFactor      KEYWORD2
+getNumOut      KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
+

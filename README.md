@@ -7,11 +7,11 @@ RIGHT NOW THIS WILL COMPILE, BUT IS NOT EVEN TESTED! STILL WORKING ON THE FIRST 
 | **To-Do**                                    | **Idea Credits**            | **Status** |
 |----------------------------------------------|-----------------------------|------------|
 | Understand Arduino Librarys | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/en/creating-libraries-and-classes-part-i)| I start to understand but have a long way to go|
-| Modify class definition of the Source Library to use arrays        | [Queuetue HX711 Library](https://github.com/queuetue/Q2-HX711-Arduino-Library)   | compiles; but not tested   |
-| Process sensor data bit by bit           | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/en/strain-gauges) | not jet testetd       |
+| Modify class definition of the Source Library to use arrays        | [Queuetue HX711 Library](https://github.com/queuetue/Q2-HX711-Arduino-Library)   | compiles; betatesting   |
+| Process sensor data bit by bit           | [Wolles Elektronikkiste](https://wolles-elektronikkiste.de/en/strain-gauges) | betatesting       |
 | Add an atomic block for critical operations  | [bogde](https://github.com/bogde/HX711/blob/master/src/HX711.cpp)               | not jet tested       |
 | Implement a tare method                      |                         | Todo       |
-| Keep the code simple                         |               | Todo       |
+| Keep the code simple                         |               | need to vreate a dummy constuctor to reduce global variables       |
 
 
 ## Multi HX711 Arduino Library
@@ -50,19 +50,37 @@ Here is a simple example of using the HX711 on pins 2 and 3 to read a strain gau
 
 MULTI_HX711 hx711(D5, D7);
 
+
 void setup() {
   Serial.begin(9600);
+  while(!Serial); 
+  delay(500);
+  hx711.setTare(10,10);
+  uint16_t factor[] = {13279,14250,13079,14278}; //ausprobierte Werte
+  hx711.setFactor(factor);
 }
 
 void loop() {
+  if (Serial.available() > 0) {
+    char command = Serial.read();
+    if (command == 't') {
+      // Set tare values
+      hx711.setTare(10, 10);
+      Serial.println(F("Tare completed."));
+    }
+  }
+  
   if (hx711.readyToSend()) {
     // Read the data and store it in an array
-    uint32_t* data = hx711.read();
-
+    float* data = hx711.readTareKilo();
     // Print the data
-    Serial.println(data[0]);
-    
-    delay(500);
+    for (int i = 0; i < hx711.getNumOut(); i++) {
+      Serial.print(F(" Data["));
+      Serial.print(i);
+      Serial.print(F("]: "));
+      Serial.print(data[i]);
+    }
+   delay(1000);
   }
 }
 ```
@@ -72,35 +90,50 @@ Four HX711 with only two clockpins read the value after tare:
 #include <MULTI_HX711.h>
 
 // Pin Arrays für die HX711-Instanz
+
 byte out_pins[] = {D5, D6, D1, D2}; // Daten-Pins
 byte clock_pins[] = {D7, D3};      // Clock-Pins
-const byte num_out = sizeof(out_pins) / sizeof(byte);     // Anzahl der Daten-Pins
-const byte num_clk = sizeof(clock_pins) / sizeof(byte); // Anzahl der Clock-Pins
-MULTI_HX711 hx711(out_pins, clock_pins, num_out, num_clk);
-/*
-MULTI_HX711 hx711(D5, D7);
-byte num_out = 1;
-*/
+MULTI_HX711 hx711(out_pins, clock_pins, sizeof(out_pins) / sizeof(byte), sizeof(clock_pins) / sizeof(byte));
+
+
+//MULTI_HX711 hx711(D5, D7);
+
 
 void setup() {
   Serial.begin(9600);
   while(!Serial); 
+  delay(500);
   hx711.setTare(10,10);
+  uint16_t factor[] = {13279,14250,13079,14278}; //ausprobierte Werte
+  hx711.setFactor(factor);
 }
 
 void loop() {
+  if (Serial.available() > 0) {
+    char command = Serial.read();
+    if (command == 't') {
+      // Set tare values
+      hx711.setTare(10, 10);
+      Serial.println(F("Tare completed."));
+    }
+  }
+  
   if (hx711.readyToSend()) {
     // Read the data and store it in an array
-    uint32_t* data = hx711.readTare();
-
+    float* data = hx711.readTareKilo();
+    // summiere
+    float gesamt = 0.0;
     // Print the data
-    for (int i = 0; i < num_out; i++) {
-      Serial.print(" Data[");
+    for (int i = 0; i < hx711.getNumOut(); i++) {
+      Serial.print(F(" Data["));
       Serial.print(i);
-      Serial.print("]: ");
+      Serial.print(F("]: "));
       Serial.print(data[i]);
+      gesamt += data[i];
     }
-   Serial.println("");
-   delay(5000);
+   Serial.print(F(" In Summe: "));
+   Serial.println(gesamt);
+   delay(1000);
   }
 }
+```
