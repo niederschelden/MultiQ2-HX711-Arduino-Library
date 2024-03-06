@@ -23,7 +23,7 @@ class MULTI_HX711
     float* kilos; // Privates Mitglied für das Kiloarray
     uint32_t* tare; // Privates Mitglied für das Taraarray
 
-
+    bool BLOCK = false;
     byte GAIN;
     byte num_out; // Anzahl der Outpins
     byte num_clk; // Anzahl der Clockpins

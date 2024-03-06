@@ -85,7 +85,8 @@ void MULTI_HX711::setTare(byte runs, byte delays) {
 }
 
 bool MULTI_HX711::readyToSend()
-{
+{ 
+  if (BLOCK) return false;
   // Iteriere durch alle Output-Pins
   for (byte i = 0; i < num_out; i++)
   {
@@ -129,11 +130,12 @@ void MULTI_HX711::setGain(byte gain)
 
 uint32_t *MULTI_HX711::read()
 {
-  while (!readyToSend())
-    ;
-  // leere jedes mal das Ergebnisarray
+    // leere jedes mal das Ergebnisarray
   for (byte j = 0; j < this->num_out; j++)
     data[j] = 0;
+    
+  while (!readyToSend());
+
 
   BEGIN_ATOMIC_BLOCK;
 
