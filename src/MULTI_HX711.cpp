@@ -136,7 +136,6 @@ uint32_t *MULTI_HX711::read()
     
   while (!readyToSend());
 
-
   BEGIN_ATOMIC_BLOCK;
 
   for (int i = 0; i < (GAIN + 24); i++)
