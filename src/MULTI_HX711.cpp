@@ -4,20 +4,15 @@
 //Dummy Konstruktor
 MULTI_HX711::MULTI_HX711(){}
 
-//Alte Konstruktor klasse für nur ein HX711
-MULTI_HX711::MULTI_HX711(byte output_pin, byte clock_pin)
+//Alte init Methode für nur ein HX711
+void MULTI_HX711::init(byte output_pin, byte clock_pin)
 {
   byte clock_pins[] = {clock_pin};  // Erzeuge ein Array mit einem Element
   byte out_pins[] = {output_pin};   // Erzeuge ein Array mit einem Element
   init(out_pins, clock_pins, 1, 1); // Rufe die init-Methode mit den Arrays der Länge 1 auf
 }
-//Neue Konstruktor klasse für nur ein HX711
-MULTI_HX711::MULTI_HX711(byte *output_pins, byte *clock_pins, byte num_out, byte num_clk)
-{
-  init(output_pins, clock_pins, num_out, num_clk); // Rufe die init-Methode mit den übergebenen Arrays auf
-}
 
-//Hier laufen beide Konstruktoren zusammen
+//Neue init Methode für mehrere HX711
 void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte num_clk)
 {
   // Initialisierung der Variablen
@@ -191,6 +186,11 @@ float *MULTI_HX711::readTareKilo(){
   return kilos;
 }
 
+//Individuelle Faktoren
 void MULTI_HX711::setFactor(uint16_t* factor){
   for (byte j = 0; j < num_out; j++) FACTOR[j]= factor[j]; 
+}
+//Ein Factor für alle
+void MULTI_HX711::setFactor(uint16_t factor){
+  for (byte j = 0; j < num_out; j++) FACTOR[j] = factor; 
 }

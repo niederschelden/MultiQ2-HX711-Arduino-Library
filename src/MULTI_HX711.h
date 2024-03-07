@@ -30,17 +30,12 @@ class MULTI_HX711
     
     
   public:
-    //Dummy Konstruktor
+    //Konstruktor
     MULTI_HX711();
-
-    // Überladener Konstruktor für einzelne Pins
-    MULTI_HX711(byte output_pin, byte clock_pin);
-    
-    // Überladener Konstruktor für Arrays bekannter Länge
-    MULTI_HX711(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk);
-    
+    //Destruktor
     virtual ~MULTI_HX711();
-
+    //Methoden
+    void init(byte output_pin, byte clock_pin);
     void init(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk); //MUSS aufgerufen werden
     bool readyToSend();
     void setGain(byte gain = 128);
@@ -48,6 +43,7 @@ class MULTI_HX711
     uint32_t* readTare();
     float* readTareKilo();
     void setTare(byte runs, byte delays);
+    void setFactor(uint16_t factor);
     void setFactor(uint16_t* factor);
     byte getNumOut() {
         return num_out;
