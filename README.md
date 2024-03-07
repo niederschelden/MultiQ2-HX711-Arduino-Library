@@ -33,117 +33,27 @@ Additionally, it can also accept two arrays of pin numbers for more advanced set
 
 ### Functions
 
-| Function       | Description                                                            |
-|----------------|------------------------------------------------------------------------|
-| init    | Mandatory setup for class variables. (May be called from Constructor)|
-| readyToSend    | Returns a boolean value indicating whether the HX711 is ready to send data. |
-| setGain        | Sets the gain of the HX711 amplifier.  {128 Channel A,64 Channel A,32 Channel B}                                 |
-| read           | Reads the raw data from the HX711.                                      |
-| readTare       | Reads the raw data from the HX711 after applying the tare.              |
-| readTareKilo   | Reads the data from the HX711 after applying the tare and converting it to kilograms. |
-| setTare        | Sets the tare values for subsequent readings.                           |
-| setFactor      | Sets the conversion factor for each output pin.                         |
-| getNumOut      | Returns the number of output pins configured in the HX711 instance.     |
+| Function       | Description                                                            | Return Type |
+|----------------|------------------------------------------------------------------------|-------------|
+| MULTI_HX711    | Constructor for the MULTI_HX711 class.                                 | N/A         |
+| ~MULTI_HX711   | Destructor for the MULTI_HX711 class.                                  | N/A         |
+| init           | Initializes the HX711 with a single output and clock pin.              | void        |
+| init           | Initializes the HX711 with arrays of output and clock pins.            | void        |
+| readyToSend    | Checks if the HX711 is ready to send data.                             | bool        |
+| setGain        | Sets the gain of the HX711 amplifier.                                  | void        |
+| read           | Reads the raw data from the HX711.                                     | uint32_t*   |
+| readTare       | Reads the raw data from the HX711 after applying the tare.             | uint32_t*   |
+| readTareKilo   | Reads the data from the HX711 after applying the tare and converting it to kilograms. | float*    |
+| setTare        | Sets the tare values for subsequent readings.                          | void        |
+| setFactor      | Sets the conversion factor for each output pin.                        | void        |
+| setFactor      | Sets the conversion factors for all output pins using an array.        | void        |
+| getNumOut      | Returns the number of output pins configured in the HX711 instance.    | byte        |
 
 
 
-### Example 1
-Here is a simple example of using the HX711 on pins 2 and 3 to read a strain gauge and print its current value:
+### Example 
+Here is a simple example of using the HX711 
 
-```cpp
-#include <MULTI_HX711.h>
-
-MULTI_HX711 hx711(D5, D7);
-
-
-void setup() {
-  Serial.begin(9600);
-  while(!Serial); 
-  delay(500);
-  hx711.setTare(10,10);
-  uint16_t factor[] = {13279,14250,13079,14278}; //ausprobierte Werte
-  hx711.setFactor(factor);
-}
-
-void loop() {
-  if (Serial.available() > 0) {
-    char command = Serial.read();
-    if (command == 't') {
-      // Set tare values
-      hx711.setTare(10, 10);
-      Serial.println(F("Tare completed."));
-    }
-  }
-  
-  if (hx711.readyToSend()) {
-    // Read the data and store it in an array
-    float* data = hx711.readTareKilo();
-    // Print the data
-    for (int i = 0; i < hx711.getNumOut(); i++) {
-      Serial.print(F(" Data["));
-      Serial.print(i);
-      Serial.print(F("]: "));
-      Serial.print(data[i]);
-    }
-   delay(1000);
-  }
-}
-```
-### Example 2
-Four HX711 with only two clockpins read the value after tare:
-```cpp
-#include <MULTI_HX711.h>
-
-// Pin Arrays für die HX711-Instanz
-
-byte out_pins[] = {D5, D6, D1, D2}; // Daten-Pins
-byte clock_pins[] = {D7, D3};      // Clock-Pins
-MULTI_HX711 hx711(out_pins, clock_pins, sizeof(out_pins) / sizeof(byte), sizeof(clock_pins) / sizeof(byte));
-
-
-//MULTI_HX711 hx711(D5, D7);
-
-
-void setup() {
-  Serial.begin(9600);
-  while(!Serial); 
-  delay(500);
-  hx711.setTare(10,10);
-  uint16_t factor[] = {13279,14250,13079,14278}; //ausprobierte Werte
-  hx711.setFactor(factor);
-}
-
-void loop() {
-  if (Serial.available() > 0) {
-    char command = Serial.read();
-    if (command == 't') {
-      // Set tare values
-      hx711.setTare(10, 10);
-      Serial.println(F("Tare completed."));
-    }
-  }
-  
-  if (hx711.readyToSend()) {
-    // Read the data and store it in an array
-    float* data = hx711.readTareKilo();
-    // summiere
-    float gesamt = 0.0;
-    // Print the data
-    for (int i = 0; i < hx711.getNumOut(); i++) {
-      Serial.print(F(" Data["));
-      Serial.print(i);
-      Serial.print(F("]: "));
-      Serial.print(data[i]);
-      gesamt += data[i];
-    }
-   Serial.print(F(" In Summe: "));
-   Serial.println(gesamt);
-   delay(1000);
-  }
-}
-```
-### Example 3
-Reducing global variables by initilaisation in the setup()
 ```cpp
 #include <MULTI_HX711.h>
 
@@ -151,17 +61,33 @@ Reducing global variables by initilaisation in the setup()
 MULTI_HX711 hx711;
 
 void setup() {
-  Serial.begin(9600);
-  while(!Serial); 
+  Serial.begin(115200);
+  while (!Serial);
+  //setup_single();
+  setup_multi();
+}
+
+void setup_single() {
+  
+  hx711.init(D5, D7);
+  delay(500);//Aufwärmen vor dem Tara
+  hx711.setTare(10, 10); //Tara
+  //Umrechnung in Kilogramm
+  hx711.setFactor(13279);
+  Serial.println(F("Setup Complete."));
+}
+
+
+void setup_multi() {
   // Pin Arrays für die HX711-Instanz
   byte out_pins[] = {D5, D6, D1, D2}; // Daten-Pins
   byte clock_pins[] = {D7, D3};      // Clock-Pins
   // Ende Pin Arrays
   hx711.init(out_pins, clock_pins, sizeof(out_pins) / sizeof(byte), sizeof(clock_pins) / sizeof(byte));
   delay(500);//Aufwärmen vor dem Tara
-  hx711.setTare(10,10);//Tara
+  hx711.setTare(10, 10); //Tara
   //Umrechnung in Kilogramm
-  uint16_t factor[] = {13279,14250,13079,14278}; //ausprobierte Werte
+  uint16_t factor[] = {13279, 14250, 13079, 14278}; //ausprobierte Werte
   hx711.setFactor(factor);
   Serial.println(F("Setup Complete."));
 }
@@ -175,7 +101,7 @@ void loop() {
       Serial.println(F("Tare completed."));
     }
   }
-  
+
   if (hx711.readyToSend()) {
     // Read the data and store it in an array
     float* data = hx711.readTareKilo();
@@ -189,9 +115,9 @@ void loop() {
       Serial.print(data[i]);
       gesamt += data[i];
     }
-   Serial.print(F(" In Summe: "));
-   Serial.println(gesamt);
-   delay(1000);
+    Serial.print(F(" In Summe: "));
+    Serial.println(gesamt);
+    delay(1000);
   }
 }
 
