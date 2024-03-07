@@ -130,7 +130,7 @@ uint32_t *MULTI_HX711::read()
     data[j] = 0;
     
   while (!readyToSend());
-
+  BLOCK = true;
   BEGIN_ATOMIC_BLOCK;
 
   for (int i = 0; i < (GAIN + 24); i++)
@@ -156,7 +156,7 @@ uint32_t *MULTI_HX711::read()
       }
     }
   }
-
+  BLOCK = false;
   END_ATOMIC_BLOCK;
   // Flippe Bit 23 in jedem Datenwert
   for (byte j = 0; j < num_out; j++)
