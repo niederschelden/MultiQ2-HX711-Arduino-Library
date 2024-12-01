@@ -32,13 +32,13 @@ void MULTI_HX711::init(byte *output_pins, byte *clock_pins, byte num_out, byte n
   FACTOR = new uint16_t[num_out]; 
   for (byte i = 0; i < num_out; i++) FACTOR[i] = 0;
  
-  tare = new uint32_t[num_out]; 
+  tare = new int32_t[num_out]; 
   for (byte i = 0; i < num_out; i++) tare[i] = 0;
 
   kilos = new float[num_out]; 
   for (byte i = 0; i < num_out; i++) kilos[i] = 0.0;
 
-  data = new uint32_t[num_out]; // erhält seine werte in this->read()
+  data = new int32_t[num_out]; // erhält seine werte in this->read()
 
   // Konfiguriere die Pins, falls noch nicht geschehen
   for (byte i = 0; i < num_clk; i++)
@@ -123,7 +123,7 @@ void MULTI_HX711::setGain(byte gain)
   read();
 }
 
-uint32_t *MULTI_HX711::read()
+int32_t *MULTI_HX711::read()
 {
     // leere jedes mal das Ergebnisarray
   for (byte j = 0; j < this->num_out; j++)
@@ -167,12 +167,11 @@ uint32_t *MULTI_HX711::read()
   return data;
 }
 
-uint32_t *MULTI_HX711::readTare(){
+int32_t *MULTI_HX711::readTare(){
   read();
   for (byte j = 0; j < num_out; j++)
   {
-    if(data[j]>tare[j]) data[j] -= tare[j];
-    else data[j]=0;
+     data[j] -= tare[j];
   }
   return data;
 }

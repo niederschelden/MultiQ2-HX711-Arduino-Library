@@ -19,9 +19,9 @@ class MULTI_HX711
     byte* CLOCK_PINS; // Ändern auf Array-Zeiger
     byte* OUT_PINS; // Ändern auf Array-Zeiger
     uint16_t* FACTOR; // Privates Mitglied für das Faktorarray
-    uint32_t* data; // Privates Mitglied für das Datenarray
+    int32_t* data; // Privates Mitglied für das Datenarray
     float* kilos; // Privates Mitglied für das Kiloarray
-    uint32_t* tare; // Privates Mitglied für das Taraarray
+    int32_t* tare; // Privates Mitglied für das Taraarray
 
     bool BLOCK = false;
     byte GAIN;
@@ -39,8 +39,8 @@ class MULTI_HX711
     void init(byte* output_pins, byte* clock_pins, byte num_out, byte num_clk); //MUSS aufgerufen werden
     bool readyToSend();
     void setGain(byte gain = 128);
-    uint32_t* read();
-    uint32_t* readTare();
+    int32_t* read();
+    int32_t* readTare();
     float* readTareKilo();
     void setTare(byte runs, byte delays);
     void setFactor(uint16_t factor);
