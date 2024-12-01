@@ -34,21 +34,22 @@ Additionally, it can also accept two arrays of pin numbers for more advanced set
 
 ### Functions
 
-| Function       | Description                                                            | Return Type |
-|----------------|------------------------------------------------------------------------|-------------|
-| MULTI_HX711    | Constructor for the MULTI_HX711 class.                                 | N/A         |
-| ~MULTI_HX711   | Destructor for the MULTI_HX711 class.                                  | N/A         |
-| init           | Initializes the HX711 with a single output and clock pin.              | void        |
-| init           | Initializes the HX711 with arrays of output and clock pins.            | void        |
-| readyToSend    | Checks if the HX711 is ready to send data.                             | bool        |
-| setGain        | Sets the gain of the HX711 amplifier.                                  | void        |
-| read           | Reads the raw data from the HX711.                                     | uint32_t*   |
-| readTare       | Reads the raw data from the HX711 after applying the tare.             | uint32_t*   |
-| readTareKilo   | Reads the data from the HX711 after applying the tare and converting it to kilograms. | float*    |
-| setTare        | Sets the tare values for subsequent readings.                          | void        |
-| setFactor      | Sets the conversion factor for each output pin.                        | void        |
-| setFactor      | Sets the conversion factors for all output pins using an array.        | void        |
-| getNumOut      | Returns the number of output pins configured in the HX711 instance.    | byte        |
+| Function                | Description                                                                                      | Return Type |
+|-------------------------|--------------------------------------------------------------------------------------------------|-------------|
+| MULTI_HX711             | Constructor for the MULTI_HX711 class.                                                           | N/A         |
+| ~MULTI_HX711            | Destructor for the MULTI_HX711 class.                                                            | N/A         |
+| init                    | Initializes the HX711 with a single output and clock pin.                                        | void        |
+| init                    | Initializes the HX711 with arrays of output and clock pins.                                      | void        |
+| readyToSend             | Checks if the HX711 is ready to send data.                                                       | bool        |
+| setGain                 | Sets the gain of the HX711 amplifier.                                                            | void        |
+| read                    | Reads the raw data from the HX711.                                                               | int32_t*    |
+| readTare                | Reads the raw data from the HX711 after applying the tare.                                       | int32_t*    |
+| readTareKilo (deprecated)| Reads the data from the HX711 after applying the tare and converting it to kilograms. Retained for backward compatibility. | float*    |
+| readTareFactorDecimal   | Reads the data from the HX711 after applying the tare and scaling it to the desired decimal precision. | int32_t*    |
+| setTare                 | Sets the tare values for subsequent readings.                                                    | void        |
+| setFactor               | Sets the conversion factor for each output pin.                                                  | void        |
+| setFactor               | Sets the conversion factors for all output pins using an array.                                  | void        |
+| getNumOut               | Returns the number of output pins configured in the HX711 instance.                              | byte        |
 
 
 
