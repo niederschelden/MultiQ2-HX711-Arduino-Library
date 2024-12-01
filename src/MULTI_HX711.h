@@ -42,6 +42,7 @@ class MULTI_HX711
     int32_t* read();
     int32_t* readTare();
     float* readTareKilo();
+    int32_t* readTareFactorDecimal(byte decimals); // Gibt skalierte Werte zurück - vermeidet float
     void setTare(byte runs, byte delays);
     void setFactor(uint16_t factor);
     void setFactor(uint16_t* factor);

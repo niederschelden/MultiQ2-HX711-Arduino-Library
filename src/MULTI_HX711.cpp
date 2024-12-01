@@ -176,14 +176,34 @@ int32_t *MULTI_HX711::readTare(){
   return data;
 }
 
-float *MULTI_HX711::readTareKilo(){
-  readTare();
-  for (byte j = 0; j < num_out; j++) 
-  {
-    kilos[j] = static_cast<float>(data[j]) / FACTOR[j]; 
-  }
-  return kilos;
+float* MULTI_HX711::readTareKilo() {
+    readTare();
+    for (byte j = 0; j < num_out; j++) {
+        if (FACTOR[j] != 0) { // Faktor überprüfen
+            kilos[j] = static_cast<float>(data[j]) / FACTOR[j];
+        } else {
+            kilos[j] = 0.0; // Setze auf 0.0, wenn der Faktor ungültig ist
+        }
+    }
+    return kilos;
 }
+
+int32_t* MULTI_HX711::readTareFactorDecimal(byte decimals) {
+    readTare(); // Werte mit Tare anpassen
+
+    int32_t scalingFactor = pow(10, decimals); // Skalierungsfaktor berechnen (10^decimals)
+
+    for (byte j = 0; j < num_out; j++) {
+        if (FACTOR[j] != 0) { // Faktor überprüfen, um Division durch 0 zu vermeiden
+            data[j] = (data[j] * scalingFactor) / FACTOR[j];
+        } else {
+            data[j] = 0; // Setze auf 0, wenn der Faktor ungültig ist
+        }
+    }
+
+    return data; // Skalierte Werte zurückgeben
+}
+
 
 //Individuelle Faktoren
 void MULTI_HX711::setFactor(uint16_t* factor){
