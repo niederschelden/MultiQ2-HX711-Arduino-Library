@@ -1,0 +1,9 @@
+name=Multi-HX711
+version=1.0.0
+author=Multi-HX711 Contributors
+maintainer=https://github.com/niederschelden
+sentence=A library for reading multiple HX711 load cell amplifiers with Arduino.
+paragraph=This library enables simultaneous control of multiple HX711 modules using a single or a few clock pins.
+category=Signal Input/Output
+url=https://github.com/niederschelden/Multi-HX711-Arduino-Library
+architectures=*
